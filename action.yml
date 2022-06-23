@@ -1,0 +1,24 @@
+# action.yml
+name: 'Update Terraform Modules'
+description: |
+  This action will create pull creates for updating your terraform modules lusing latest. Dependabot
+  currently has issues with this. As long as dependabot has not fixed this, this action can
+  be used. Currently only supports terraform module registry (public/private).
+inputs:
+  directory:  
+    description: 'Directory where the terraform files are'
+    required: true
+  token:
+    description: 'Terraform Token which can access the module registry'
+    required: false
+    default: ""
+  github_token:
+    description: 'Token to create pull requests'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.token }}
+    - ${{ inputs.directory }}
+    - ${{ inputs.github_token }}
