@@ -25,6 +25,7 @@ debug() {
 }
 
 DEBUG=enabled
+
 if [ -z $TFE_TOKEN ] ; then print_usage ; exit 1 ; fi
 if [ -z $TERRADIR ] ; then print_usage ; exit 1 ; fi
 if [ -z $GITHUB_TOKEN ] ; then print_usage ; exit 1 ; fi
@@ -74,9 +75,13 @@ for file in *.tf ; do
   for module in $(hcl2json $file | yq e ".module.*[].source" | sort | uniq) ; do
     if [[ ! " ${modules[*]} " =~ " ${module} " ]]; then
         modules+=(${module})
+        debug Found module: $module
         registry=$(get_registry_dns $module)
+        debug Found registry: $registry
         module_name=$(get_module_name $module)
+        debug Found module_name: $module_name
         version=$(get_latest_version $registry $module_name)
+        debug Found version: $version
         tfupdate module $module ./ -v $version
         create_pull_request $module_name $version
     fi
