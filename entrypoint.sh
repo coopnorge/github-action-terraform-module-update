@@ -3,16 +3,19 @@
 TFE_TOKEN=$1
 TERRADIR=$2
 GITHUB_TOKEN=$3
+DRY_RUN_PR=${4:=no}
 REGISTRY_API_PATH="api/registry/v1/modules"
 
 
 print_usage() {
   echo 
-  echo usage: ./$0 terraform_token terraform_manifests_directory github_token
+  echo usage: ./$0 terraform_token terraform_manifests_directory github_token dryrun
   echo
   echo terraform_token = Token which allows requests to fetch registry info
   echo terraform_manifests_directory = Directory where the terraform files are
   echo github_token = token which allows creating pull requests
+  echo dryrun = dryrun the push of the branch and the pr, set to dryrun to enable dryrun
+
 }
 
 
@@ -41,11 +44,15 @@ create_pull_request() {
   if git status --porcelain  | grep -q M ; then
     git checkout -b $branch
     git commit -am 'updating $1 to $2'
-    git push --set-upstream origin $branch
-    gh pr create \
-      --base main \
-      --title "Updating terraform module $1 to version $2" \
-      --body "Updating terraform module $1 to version $2. This PR is created by a script" \
+    if [[ "${DRYRUN}"  == "dryrun" ]] ; then
+      git diff | cat -
+    else
+      git push --set-upstream origin $branch
+      gh pr create \
+        --base main \
+        --title "Updating terraform module $1 to version $2" \
+        --body "Updating terraform module $1 to version $2. This PR is created by a script"
+    fi
     git checkout main
     git branch -D $branch
   else
