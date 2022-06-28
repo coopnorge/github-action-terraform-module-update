@@ -3,7 +3,7 @@
 TFE_TOKEN=$1
 TERRADIR=$2
 GITHUB_TOKEN=$3
-DRY_RUN_PR=${4:=no}
+DRY_RUN_PR=${4:-no}
 REGISTRY_API_PATH="api/registry/v1/modules"
 
 
@@ -18,7 +18,13 @@ print_usage() {
 
 }
 
+debug() {
+  if [[ "${DEBUG}" == "enabled" ]] ; then
+    >&2 echo DEBUG: "$@"
+  fi
+}
 
+DEBUG=enabled
 if [ -z $TFE_TOKEN ] ; then print_usage ; exit 1 ; fi
 if [ -z $TERRADIR ] ; then print_usage ; exit 1 ; fi
 if [ -z $GITHUB_TOKEN ] ; then print_usage ; exit 1 ; fi
@@ -27,6 +33,7 @@ if [ ! -d $TERRADIR ]; then echo supplied directory is not a directory ; exit 1 
 export GITHUB_TOKEN
 
 get_latest_version() {
+  debug "$1/$REGISTRY_API_PATH/$2"
   curl --fail -s -H "Authorization: Bearer $TFE_TOKEN" \
     https://$1/$REGISTRY_API_PATH/$2 | jq -r ".versions[-1]"
 }
@@ -61,9 +68,10 @@ create_pull_request() {
 }
 
 declare -a modules=()
+debug terradir is ${TERRADIR}
 pushd "${TERRADIR}"
 for file in *.tf ; do
-  for module in $(hcl2json $file | jq -r '.module.*[].source' | sort | uniq) ; do
+  for module in $(hcl2json $file | yq e ".module.*[].source" | sort | uniq) ; do
     if [[ ! " ${modules[*]} " =~ " ${module} " ]]; then
         modules+=(${module})
         registry=$(get_registry_dns $module)
