@@ -6,6 +6,7 @@ token=${1}
 test_tf_update_action() {
   ../entrypoint.sh $token ${1} no_token dryrun | grep "\\-  version = \"${2}\""
   status=$?
+  echo $status
   if [[ ! ${status} -eq 0 ]] ; then
     echo Failed. Expected to find \'-  version = \"${2}\"\'
     exit 1
