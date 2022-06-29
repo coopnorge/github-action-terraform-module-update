@@ -4,4 +4,5 @@ token=${1}
 folder=${2:-modules/beta}
 
 
-../entrypoint.sh $token $folder no_token dryrun
+echo Testing beta versions
+../entrypoint.sh $token modules/beta no_token dryrun | grep "-  version = \"1.12.0-beta1\""
