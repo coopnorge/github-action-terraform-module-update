@@ -74,7 +74,7 @@ declare -a modules=()
 debug terradir is ${TERRADIR}
 pushd "${TERRADIR}"
 for file in *.tf ; do
-  for module in $(hcl2json $file | yq e jq -r '.module[][].source' | sort | uniq) ; do
+  for module in $(hcl2json $file | jq -r '.module[][].source' | sort | uniq) ; do
     if [[ ! " ${modules[*]} " =~ " ${module} " ]]; then
         modules+=(${module})
         debug Found module: $module
