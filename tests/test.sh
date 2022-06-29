@@ -13,7 +13,7 @@ test_tf_update_action() {
   fi
 }
 
-test_tf_update_action modules/beta "\\-  version = \"${2}\""
+test_tf_update_action modules/beta "\\-  version = \"1.2.0-beta1\""
 exit
 
 
