@@ -5,7 +5,7 @@ set -e
 token=${1}
 
 echo Testing beta versions
-../entrypoint.sh $token modules/beta no_token dryrun | grep "\\-  version = \"1.12.0-beta1\"" || (echo Failed. Should return: '-  version = "1.12.0-beta1"' ; exit 1)
+../entrypoint.sh $token modules/beta no_token dryrun | grep "\\-  version = \"1.12.0-beta1\"" || (echo Failed. Should return: \'-  version = "1.12.0-beta1"\' ; exit 1)
 
 echo Testing follow versions
 ../entrypoint.sh $token modules/follow no_token dryrun | grep "\\-  version = \"~> 1.0\""
