@@ -49,7 +49,6 @@ get_module_name() {
 
 create_pull_request() {
   branch=$(echo $1-$2 | sed 's/\//-/g')
-  #if git status --porcelain  | grep -q M ; then
   if git diff | grep -q +++ ; then
     if [[ "${DRY_RUN_PR}"  != "dryrun" ]] ; then
       git checkout -b $branch
@@ -75,7 +74,7 @@ declare -a modules=()
 debug terradir is ${TERRADIR}
 pushd "${TERRADIR}"
 for file in *.tf ; do
-  for module in $(hcl2json $file | yq e ".module.*[].source" | sort | uniq) ; do
+  for module in $(hcl2json $file | yq e jq -r '.module[][].source' | sort | uniq) ; do
     if [[ ! " ${modules[*]} " =~ " ${module} " ]]; then
         modules+=(${module})
         debug Found module: $module
