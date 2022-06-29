@@ -14,16 +14,9 @@ test_tf_update_action() {
   else
     echo Success
   fi
-
-
-#  if [[ ! ${status} -eq 0 ]] ; then
-#    echo Failed. Testing ${1}
-#    echo Expected to find ${2}
-#    exit 1
-#  fi
 }
 
-test_tf_update_action modules/beta "1.12.1-beta1"
+test_tf_update_action modules/beta "1.12.0-beta1"
 
 test_tf_update_action modules/follow "~> 1.0"
 
