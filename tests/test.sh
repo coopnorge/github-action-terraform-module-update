@@ -10,6 +10,8 @@ test_tf_update_action() {
     echo Failed. Found:
     echo $interest
     exit 1
+  else
+    echo Success
   fi
 
 
