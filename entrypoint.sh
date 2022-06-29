@@ -25,7 +25,7 @@ debug() {
   fi
 }
 
-DEBUG=enabled
+#DEBUG=enabled
 if [ -z $TFE_TOKEN ] ; then print_usage ; exit 1 ; fi
 if [ -z $TERRADIR ] ; then print_usage ; exit 1 ; fi
 if [ -z $GITHUB_TOKEN ] ; then print_usage ; exit 1 ; fi
