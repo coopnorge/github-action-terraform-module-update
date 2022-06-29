@@ -4,7 +4,7 @@ TFE_TOKEN=$1
 TERRADIR=$2
 GITHUB_TOKEN=$3
 DRY_RUN_PR=${4:-no}
-SOURCE_BRANCH=main
+SOURCE_BRANCH=implement-test-somehow
 REGISTRY_API_PATH="api/registry/v1/modules"
 
 
