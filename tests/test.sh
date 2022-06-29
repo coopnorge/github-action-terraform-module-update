@@ -4,7 +4,7 @@
 token=${1}
 
 test_tf_update_action() {
-  ../entrypoint.sh $token ${1} no_token dryrun #| grep "${2}"
+  ../entrypoint.sh $token ${1} no_token dryrun | grep "${2}"
   status=$?
   echo $status
   if [[ ! ${status} -eq 0 ]] ; then
@@ -13,7 +13,7 @@ test_tf_update_action() {
   fi
 }
 
-test_tf_update_action modules/beta "\\-  version = \"1.2.0-beta1\""
+test_tf_update_action modules/beta "\\-  version = \"1.12.0-beta1\""
 exit
 
 
