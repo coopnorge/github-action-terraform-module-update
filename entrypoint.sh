@@ -51,7 +51,7 @@ create_pull_request() {
   branch=$(echo $1-$2 | sed 's/\//-/g')
   #if git status --porcelain  | grep -q M ; then
   if git diff | grep -q +++ ; then
-    if [[ "${DRYRUN}"  != "dryrun" ]] ; then
+    if [[ "${DRY_RUN_PR}"  != "dryrun" ]] ; then
       git checkout -b $branch
       git commit -am 'updating $1 to $2'
       git push --set-upstream origin $branch
