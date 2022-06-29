@@ -4,7 +4,7 @@
 token=${1}
 
 test_tf_update_action() {
-  ../entrypoint.sh $token ${1} no_token dryrun | grep "${2}"
+  ../entrypoint.sh $token ${1} no_token dryrun #| grep "${2}"
   status=$?
   echo $status
   if [[ ! ${status} -eq 0 ]] ; then
