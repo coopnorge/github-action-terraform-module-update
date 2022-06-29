@@ -4,6 +4,7 @@ TFE_TOKEN=$1
 TERRADIR=$2
 GITHUB_TOKEN=$3
 DRY_RUN_PR=${4:-no}
+SOURCE_BRANCH=main
 REGISTRY_API_PATH="api/registry/v1/modules"
 
 
@@ -48,20 +49,23 @@ get_module_name() {
 
 create_pull_request() {
   branch=$(echo $1-$2 | sed 's/\//-/g')
-  if git status --porcelain  | grep -q M ; then
-    git checkout -b $branch
-    git commit -am 'updating $1 to $2'
-    if [[ "${DRYRUN}"  == "dryrun" ]] ; then
-      git diff | cat -
-    else
+  #if git status --porcelain  | grep -q M ; then
+  if git diff | grep -q +++ ; then
+    if [[ "${DRYRUN}"  != "dryrun" ]] ; then
+      git checkout -b $branch
+      git commit -am 'updating $1 to $2'
       git push --set-upstream origin $branch
       gh pr create \
         --base main \
         --title "Updating terraform module $1 to version $2" \
         --body "Updating terraform module $1 to version $2. This PR is created by a script"
+      git checkout $SOURCE_BRANCH
+      git branch -D $branch
+    else
+      echo dryrun enabled, only showing diff
+      git diff | cat -
+      git reset --hard
     fi
-    git checkout main
-    git branch -D $branch
   else
     echo No changes, nothing to commit
   fi
@@ -80,7 +84,7 @@ for file in *.tf ; do
         module_name=$(get_module_name $module)
         debug Found module_name: $module_name
         version=$(get_latest_version $registry $module_name)
-        debug Found
+        debug Found version $version
         tfupdate module $module ./ -v $version
         create_pull_request $module_name $version
     fi
