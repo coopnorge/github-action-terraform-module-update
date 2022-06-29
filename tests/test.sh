@@ -2,7 +2,7 @@
 
 token=${1}
 
-
+set -e
 
 echo Testing beta versions
 ../entrypoint.sh $token modules/beta no_token dryrun | grep "\\-  version = \"1.12.0-beta1\""
