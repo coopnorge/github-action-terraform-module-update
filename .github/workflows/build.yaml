@@ -2,6 +2,13 @@ on:
   push: {}
 
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: simple test
+        working-directory: tests
+        run: |
+          ./tests ${{ secrets.tfe_token }}
   build:
     runs-on: ubuntu-latest
     steps:
