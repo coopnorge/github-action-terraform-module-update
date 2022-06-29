@@ -10,7 +10,7 @@ jobs:
       - name: simple test
         working-directory: tests
         run: |
-          ./tests ${{ secrets.tfe_token }}
+          ./test.sh ${{ secrets.tfe_token }}
   build:
     runs-on: ubuntu-latest
     steps:
