@@ -4,4 +4,4 @@ token=${1}
 folder=${2:-modules/beta}
 
 
-../entrypoint.sh $token $folder dryrun
+../entrypoint.sh $token $folder no_token dryrun
