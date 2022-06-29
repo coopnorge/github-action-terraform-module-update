@@ -13,8 +13,8 @@ test_tf_update_action() {
   fi
 }
 
-test_tf_update_action modules/beta "\\-  version = \"1.12.0-beta1\""
+test_tf_update_action modules/beta "\-  version = \"1.12.0-beta1\""
 
-test_tf_update_action modules/follow "\\-  version = \"~> 1.0\""
+test_tf_update_action modules/follow "\-  version = \"~> 1.0\""
 
-test_tf_update_action modules/pinned "\\-  version = \"1.12.0\""
+test_tf_update_action modules/pinned "\-  version = \"1.12.0\""
