@@ -60,11 +60,11 @@ create_pull_request() {
         --base main \
         --title "Updating terraform module $1 to version $2" \
         --body "Updating terraform module $1 to version $2. This PR is created by a script"
-      git checkout $SOURCE_BRANCH
+      git checkout ${SOURCE_BRANCH}
       git branch -D $branch
     else
       echo dryrun enabled, only showing diff
-      git diff | cat -
+      git diff ${SOURCE_BRANCH} | cat -
       git reset --hard
     fi
   else
