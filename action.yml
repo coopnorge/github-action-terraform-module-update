@@ -15,6 +15,9 @@ inputs:
   github_token:
     description: 'Token to create pull requests'
     required: true
+  dryrun:
+    description: 'Dry run mode, does everything except pushing branches an creating prs. Set value to dryrun to enable dryrun'
+    default: no
 runs:
   using: 'docker'
   image: 'Dockerfile'
@@ -22,3 +25,4 @@ runs:
     - ${{ inputs.token }}
     - ${{ inputs.directory }}
     - ${{ inputs.github_token }}
+    - ${{ intputs.dryrun }}
