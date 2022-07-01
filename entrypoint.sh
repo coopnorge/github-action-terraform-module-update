@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+set -x
 
 TFE_TOKEN=$1
 TERRADIR=$2
