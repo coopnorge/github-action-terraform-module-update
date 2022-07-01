@@ -11,6 +11,7 @@ RUN apk add --no-cache \
         bash \
         jq \
         git \
+        curl  \
         github-cli
 
 RUN wget https://github.com/tmccombs/hcl2json/releases/download/${HCL2JSON_VERSION}/hcl2json_linux_amd64 \

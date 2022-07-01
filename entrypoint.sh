@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 TFE_TOKEN=$1
 TERRADIR=$2
 GITHUB_TOKEN=$3
