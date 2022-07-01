@@ -25,4 +25,4 @@ runs:
     - ${{ inputs.token }}
     - ${{ inputs.directory }}
     - ${{ inputs.github_token }}
-    - ${{ intputs.dryrun }}
+    - ${{ inputs.dryrun }}
